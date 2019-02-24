@@ -12,7 +12,12 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     lazy var daysViewController: [UIViewController] = {
         return[
             UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MondayViewController") as! DayViewController,
-            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TuesdayViewController") as! DayViewController
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TuesdayViewController") as! DayViewController,
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WednesdayViewController") as! DayViewController,
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ThursdayViewController") as! DayViewController,
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FridayViewController") as! DayViewController,
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SaturdayViewController") as! DayViewController,
+            UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SundayViewController") as! DayViewController
         ]
     }()
     func subViewCount(for weekView: UIPageViewController) -> Int {
@@ -33,10 +38,11 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         return daysViewController[currentIndex + 1]
     }
     override func viewDidLoad() {
-        print("ASD")
         super.viewDidLoad()
         self.delegate = self
         self.dataSource = self
-        self.setViewControllers([daysViewController[0]], direction: .forward, animated: true, completion: nil)
+        let weekday = Calendar.current.component(.weekday, from: Date())
+        let updatedWeekday = weekday == 0 ? 5 : weekday == 1 ? 6 : (weekday - 2)
+        self.setViewControllers([daysViewController[updatedWeekday]], direction: .forward, animated: true, completion: nil)
     }
 }
