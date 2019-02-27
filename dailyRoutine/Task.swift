@@ -13,7 +13,7 @@ class Task: NSObject{
     init(name: String, day: Int, time: Int){
         self.name = name
         self.day = day
-        self.time = time   //AM = 0    PM = 1
+        self.time = time
         super.init()
     }
 }

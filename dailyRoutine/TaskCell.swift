@@ -6,4 +6,10 @@
 //  Copyright © 2019 JasonApplication. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class TaskCell: UITableViewCell{
+    @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
+
+}
