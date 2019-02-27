@@ -11,6 +11,5 @@ import UIKit
 class DayViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(1)
     }
 }

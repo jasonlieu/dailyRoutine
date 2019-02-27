@@ -26,8 +26,18 @@ class AddClassViewController: UIViewController{
         time = (hour * 100) + minute
         
     }
+    @IBAction func indexChanged(sender: UISegmentedControl) {
+        date = dateField.selectedSegmentIndex == 5 ? 0 : dateField.selectedSegmentIndex == 6 ? 1 : (dateField.selectedSegmentIndex + 2)
+    }
     @IBAction func done(){
-        print(time)
+        if nameTextField.text != "" {
+            name = nameTextField.text!
+        } else{
+            //need name
+            print("NO NAME")
+        }
+        //create segue and item 
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
