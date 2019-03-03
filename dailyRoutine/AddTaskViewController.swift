@@ -14,20 +14,20 @@ class AddClassViewController: UIViewController{
     @IBOutlet var dateField: UISegmentedControl!
     
     @IBOutlet var timeField: UIDatePicker!
-    var time:Int = 0
-    var name:String = ""
-    var date:Int = 0
+    var time: Int!
+    var name: String = ""
+    var date: Int = 0
+    var addTask: Task?
     
     @objc func timeChanged(sender: UIDatePicker){
         let dateFromPicker = sender.date
         let timeFromDate = Calendar.current.dateComponents([.hour, .minute],from: dateFromPicker)
         let hour = timeFromDate.hour!
         let minute = timeFromDate.minute!
-        time = (hour * 100) + minute
-        
+        time = (hour * 100) + minute        
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
-        date = dateField.selectedSegmentIndex == 5 ? 0 : dateField.selectedSegmentIndex == 6 ? 1 : (dateField.selectedSegmentIndex + 2)
+        date = dateField.selectedSegmentIndex
     }
     @IBAction func done(){
         if nameTextField.text != "" {
@@ -36,12 +36,26 @@ class AddClassViewController: UIViewController{
             //need name
             print("NO NAME")
         }
-        //create segue and item 
+        //addTask = Task(name: name, day: date, time: time)
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "addTask"?:
+            let weekView = segue.destination as! WeekViewController
+            addTask = Task(name: name, day: date, time: time)
+            if addTask != nil {
+                weekView.newTask = addTask
+                weekView.newTaskWaiting = true
+                weekView.addToDay = date
+            }
+        default:
+            preconditionFailure("Unexpected segue identifier.")
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //timeField = UIDatePicker()
+        timeChanged(sender: timeField)
         timeField?.addTarget(self, action: #selector(AddClassViewController.timeChanged(sender:)), for: .valueChanged)
     }
     

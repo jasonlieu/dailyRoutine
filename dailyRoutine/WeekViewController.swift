@@ -9,7 +9,12 @@
 import UIKit
 
 class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource{
-    lazy var daysViewController: [UIViewController] = {
+    var newTaskWaiting: Bool = false
+    var newTask: Task!
+    var addToDay: Int = 0
+    
+    
+    lazy var daysViewController: [DayViewController] = {
         return[
             UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MondayViewController") as! DayViewController,
             UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TuesdayViewController") as! DayViewController,
@@ -24,18 +29,24 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         return daysViewController.count
     }
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        let currentIndex = daysViewController.index(of: viewController)!
+        let currentIndex = daysViewController.index(of: viewController as! DayViewController)!
         if  currentIndex <= 0{
-            return nil
+            return daysViewController[6]
         }
         return daysViewController[currentIndex - 1]
     }
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        let currentIndex = daysViewController.index(of: viewController)!
+        let currentIndex = daysViewController.index(of: viewController as! DayViewController)!
         if  currentIndex >= daysViewController.count - 1 {
-            return nil
+            return daysViewController[0]
         }
         return daysViewController[currentIndex + 1]
+    }
+    func addNewTaskToDay(){
+        print("WeekView addTask")
+        //let newTaskTest = Task(name: newTaskName, day: addToDay, time: newTaskTime)
+        daysViewController[addToDay].addTask(task: newTask)
+        newTaskWaiting = false
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,5 +55,14 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         let weekday = Calendar.current.component(.weekday, from: Date())
         let updatedWeekday = weekday == 0 ? 5 : weekday == 1 ? 6 : (weekday - 2)
         self.setViewControllers([daysViewController[updatedWeekday]], direction: .forward, animated: true, completion: nil)
+        for days in daysViewController {
+            days.displayedDay = Day()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        if newTaskWaiting {
+            addNewTaskToDay()
+        }
     }
 }

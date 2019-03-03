@@ -9,27 +9,25 @@
 import UIKit
 class Day {
     var schedule = [Task]()
-    
-    func addTask(task: Task) -> Task{
+    func addTask(newTask: Task){
         for currentTask in schedule{
-            if currentTask.time < task.time {
+            if currentTask.time < newTask.time {
                 continue
             }
-            schedule.insert(task, at: schedule.index(of: currentTask)!) //add new task
-            return task
+            schedule.insert(newTask, at: schedule.index(of: currentTask)!) //add new task
+            return
         }
-        schedule.append(task) //latest item, append at end
-        print(schedule.count)
-        return task
+        schedule.append(newTask) //latest item, append at end
+        return
     }
-    func removeTask(task: Task) -> Task{
+    func removeTask(task: Task) {
         if let index = schedule.index(of: task){
             schedule.remove(at: index)
         }
-        return task
+        return
     }
     init(){
-        let tempTask = Task(name: "test", day: 1, time: 100)
-        schedule.append(tempTask)
+        //let tempTask = Task(name: "test", day: 1, time: 100)
+        //schedule.append(tempTask)
     }
 }
