@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dailyTasks = Day()
         let mainController = window!.rootViewController as! MainViewController
         mainController.dailyTasks = dailyTasks
+        //let dayTasks = Day()
+        //let dayController = window!. as! DayViewController
+        //dayController.displayedDay = dayTasks
         return true
     }
 
