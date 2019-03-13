@@ -24,12 +24,14 @@ class MainViewController: UITableViewController {
         let task = dailyTasks.schedule[indexPath.row]
         cell.nameLabel.text = task.name
         let minute = task.time%100 < 10 ? "0" + String(task.time%100) : String(task.time%100)
-        //let hour = task.time/100 < 1 ? "12" : String(task.time/100)
         let hour = task.time/100 < 1 ? "12" : task.time/100 > 12 ? String ((task.time/100) - 12): String(task.time/100)
         let AMorPM = task.time > 1200 ? " PM" : " AM"
         cell.timeLabel.text = hour + ":" + minute + AMorPM
         if task.done == 1 {
             cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+        }
+        else {
+            cell.accessoryType = UITableViewCell.AccessoryType.none
         }
         return cell
     }
@@ -111,7 +113,6 @@ class MainViewController: UITableViewController {
             let time = sqlite3_column_int(get, 2)
             let day = displayDay == "Monday" ? 0 : displayDay == "Tuesday" ? 1 : displayDay == "Wednesday" ? 2 : displayDay == "Thursday" ? 3 : displayDay == "Friday" ? 4 : displayDay == "Saturday" ? 5 : 6
             dailyTasks.addTask(newTask: Task(name: name, day: day, time: Int(time)))
-            print(name)
         }
         //handle Today ( drop current, load into current from daily)
         sqlite3_exec(db, "DELETE FROM Today", nil, nil, nil)
@@ -144,7 +145,6 @@ class MainViewController: UITableViewController {
                 print("failure inserting into Today: \(errmsg)")
                 return
             }
-            print(task.name)
         }
         tableView.reloadData()
     }
@@ -162,7 +162,6 @@ class MainViewController: UITableViewController {
             let done = sqlite3_column_int(get, 3)
             let day = displayDay == "Monday" ? 0 : displayDay == "Tuesday" ? 1 : displayDay == "Wednesday" ? 2 : displayDay == "Thursday" ? 3 : displayDay == "Friday" ? 4 : displayDay == "Saturday" ? 5 : 6
             let task = Task(name: name, day: day, time: Int(time))
-            print(done)
             if done == 1 {
                 task.check()
             }
