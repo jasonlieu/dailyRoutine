@@ -11,8 +11,4 @@ import UIKit
 class TodayTaskCell : UITableViewCell{
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
-    
-    //@IBAction func takeOffList(){
-        
-    //}
 }

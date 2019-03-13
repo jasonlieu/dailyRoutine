@@ -26,8 +26,9 @@ class Day {
         }
         return
     }
-    init(){
+    
+    //init(){
         //let tempTask = Task(name: "test", day: 1, time: 100)
         //schedule.append(tempTask)
-    }
+    //}
 }

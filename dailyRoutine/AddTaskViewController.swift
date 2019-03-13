@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddClassViewController: UIViewController{
+class AddTaskViewController: UIViewController{
     
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var dateField: UISegmentedControl!
@@ -19,44 +19,41 @@ class AddClassViewController: UIViewController{
     var date: Int = 0
     var addTask: Task?
     
+    var newTask: Task!
+    
     @objc func timeChanged(sender: UIDatePicker){
         let dateFromPicker = sender.date
         let timeFromDate = Calendar.current.dateComponents([.hour, .minute],from: dateFromPicker)
         let hour = timeFromDate.hour!
         let minute = timeFromDate.minute!
-        time = (hour * 100) + minute        
+        time = (hour * 100) + minute
+        print(time)
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
         date = dateField.selectedSegmentIndex
     }
     @IBAction func done(){
         if nameTextField.text != "" {
-            name = nameTextField.text!
+            newTask.name = nameTextField.text ?? "default"
+            newTask.day = date
+            newTask.time = time
+            _ = navigationController?.popViewController(animated: true)
         } else{
-            //need name
-            print("NO NAME")
+            nameTextField.layer.borderColor = UIColor.red.cgColor
+            nameTextField.layer.borderWidth = 1
         }
-        //addTask = Task(name: name, day: date, time: time)
-        
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "addTask"?:
-            let weekView = segue.destination as! WeekViewController
-            addTask = Task(name: name, day: date, time: time)
-            if addTask != nil {
-                weekView.newTask = addTask
-                weekView.newTaskWaiting = true
-                weekView.addToDay = date
-            }
-        default:
-            preconditionFailure("Unexpected segue identifier.")
-        }
+    @IBAction func backgroundTapped(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         timeChanged(sender: timeField)
-        timeField?.addTarget(self, action: #selector(AddClassViewController.timeChanged(sender:)), for: .valueChanged)
+        timeField?.addTarget(self, action: #selector(AddTaskViewController.timeChanged(sender:)), for: .valueChanged)
+        dateField.selectedSegmentIndex = 0
+        
     }
-    
 }

@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let dailyTasks = Day()
-        let mainController = window!.rootViewController as! MainViewController
+        let navController = window!.rootViewController as! UINavigationController
+        //let mainController = window!.rootViewController as! MainViewController
+        let mainController = navController.topViewController as! MainViewController
         mainController.dailyTasks = dailyTasks
         //let dayTasks = Day()
         //let dayController = window!. as! DayViewController
