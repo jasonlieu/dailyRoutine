@@ -52,7 +52,6 @@ class DayViewController: UITableViewController{
             if (task.day + 2 % 7) == weekday {
                 let deleteToday = "DELETE FROM Today WHERE name = '" + name + "' AND time = '" + String(time) + "'"
                 sqlite3_exec(db, deleteToday, nil, nil, nil)
-                print(deleteToday)
             }
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             //remove from DB
@@ -102,7 +101,6 @@ class DayViewController: UITableViewController{
     }
     func addTask(task: Task){
         displayedDay.addTask(newTask: task)
-        print("count: " + String(displayedDay.schedule.count))
         tableView.reloadData()
     }
     override func viewDidLoad() {
@@ -120,7 +118,6 @@ class DayViewController: UITableViewController{
         handleDB()
         loadFromDB()
         setEditing(true, animated: true)
-        print(dayOfWeek)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillDisappear(true)
