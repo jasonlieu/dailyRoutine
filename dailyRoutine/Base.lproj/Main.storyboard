@@ -27,7 +27,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GcH-pd-bW5">
-                                            <rect key="frame" x="24" y="24.5" width="196" height="21"/>
+                                            <rect key="frame" x="24" y="24.5" width="42.5" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -44,7 +44,7 @@
                                         <constraint firstItem="aZ6-Mm-Z3K" firstAttribute="leading" secondItem="keC-w8-PHh" secondAttribute="leading" constant="250" id="ZXc-JL-Pbf"/>
                                         <constraint firstItem="GcH-pd-bW5" firstAttribute="centerY" secondItem="keC-w8-PHh" secondAttribute="centerY" id="aAg-85-mfK"/>
                                         <constraint firstItem="aZ6-Mm-Z3K" firstAttribute="centerY" secondItem="keC-w8-PHh" secondAttribute="centerY" id="gPI-X2-bff"/>
-                                        <constraint firstItem="aZ6-Mm-Z3K" firstAttribute="leading" secondItem="GcH-pd-bW5" secondAttribute="trailing" constant="30" id="gtH-Lj-Ftw"/>
+                                        <constraint firstItem="aZ6-Mm-Z3K" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GcH-pd-bW5" secondAttribute="trailing" constant="30" id="gtH-Lj-Ftw"/>
                                         <constraint firstItem="GcH-pd-bW5" firstAttribute="leading" secondItem="keC-w8-PHh" secondAttribute="leadingMargin" constant="8" id="pZm-Na-Ibq"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -61,7 +61,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="mnu-y3-Tvu">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="m2Q-k7-WSt">
+                        <barButtonItem key="rightBarButtonItem" style="done" id="m2Q-k7-WSt">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wgx-nE-LBZ">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -82,7 +82,7 @@
             <objects>
                 <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="xmC-dh-C0O" customClass="WeekViewController" customModule="dailyRoutine" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="VJ8-z8-tD7">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="HJh-eI-TSU">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="HJh-eI-TSU">
                             <connections>
                                 <segue destination="2vi-zP-sdZ" kind="show" identifier="showAddTask" id="Hj9-gN-s2A"/>
                             </connections>
