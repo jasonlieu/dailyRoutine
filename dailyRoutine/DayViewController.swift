@@ -103,14 +103,16 @@ class DayViewController: UITableViewController{
         displayedDay.addTask(newTask: task)
         tableView.reloadData()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         let barHeight = UIApplication.shared.statusBarFrame.height
         let navHeight = self.navigationController?.navigationBar.bounds.height ?? 0
         let sumHeight = barHeight + navHeight
         let insets = UIEdgeInsets(top: sumHeight, left: 0, bottom: 0, right: 0)
         tableView.contentInset = insets
         tableView.scrollIndicatorInsets = insets
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 240/255, alpha: 1)
