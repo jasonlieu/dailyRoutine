@@ -51,7 +51,8 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         let weekday = Calendar.current.component(.weekday, from: Date())
         let name = newTask.name
         let time = newTask.time
-        if (task.day + 2 % 7) == weekday { //insert to today table if task is add to current day
+        if ((task.day + 2) % 7) == weekday { //insert to today table if task is add to current day
+            print("insert into today")
             let todayQuery = "INSERT INTO Today (name, time, done) VALUES (?,?,?)"
             var insertToday : OpaquePointer?
             if sqlite3_prepare(db, todayQuery, -1, &insertToday, nil) != SQLITE_OK{
@@ -107,7 +108,7 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     func prepareQuery(task: Task) -> String{
         let day: String = task.day == 0 ? "Monday" : task.day == 1 ? "Tuesday" : task.day == 2 ? "Wednesday" : task.day == 3 ? "Thursday" : task.day == 4 ? "Friday" : task.day == 5 ? "Saturday" : "Sunday"
         return "INSERT INTO " + day + " (name, time) VALUES (?,?)"
-
+        
     }
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]){
         indexOfNextVC = daysViewController.index(of: pendingViewControllers[0] as! DayViewController)
@@ -131,34 +132,6 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("ScheduleDatabase.sqlite")
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
             print("error opening database")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Monday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Tuesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Wednesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Thursday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Friday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Saturday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
-        }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Sunday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
         }
     }
     

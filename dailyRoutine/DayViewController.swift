@@ -15,15 +15,15 @@ class DayViewController: UITableViewController{
     var db: OpaquePointer?
     var queryString : String!
     /*let colors : [UIColor] = [
-         //+15
-        UIColor(displayP3Red: 225/255, green: 193/255, blue: 193/255, alpha: 1),
-        UIColor(displayP3Red: 128/255, green: 233/255, blue: 242/255, alpha: 1),
-        UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-        UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-        UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-        UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1), //sat
-        UIColor(displayP3Red: 283/255, green: 255/255, blue: 233/255, alpha: 1)  //sun
-    ]*/
+     //+15
+     UIColor(displayP3Red: 225/255, green: 193/255, blue: 193/255, alpha: 1),
+     UIColor(displayP3Red: 128/255, green: 233/255, blue: 242/255, alpha: 1),
+     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
+     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
+     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
+     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1), //sat
+     UIColor(displayP3Red: 283/255, green: 255/255, blue: 233/255, alpha: 1)  //sun
+     ]*/
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return displayedDay.schedule.count
@@ -49,7 +49,7 @@ class DayViewController: UITableViewController{
             let weekday = Calendar.current.component(.weekday, from: Date())
             let name = task.name
             let time = task.time
-            if (task.day + 2 % 7) == weekday {
+            if ((task.day + 2) % 7) == weekday {
                 let deleteToday = "DELETE FROM Today WHERE name = '" + name + "' AND time = '" + String(time) + "'"
                 sqlite3_exec(db, deleteToday, nil, nil, nil)
             }

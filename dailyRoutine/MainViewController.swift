@@ -62,6 +62,34 @@ class MainViewController: UITableViewController {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Monday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Tuesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Wednesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Thursday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Friday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Saturday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Sunday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error creating table: \(errmsg)")
+        }
         //check if savedDay has 0 entries, if so add 1
         var numRowsInSavedDay : Int = 0
         let countQuery = "SELECT COUNT(*) FROM savedDay"
@@ -203,9 +231,7 @@ class MainViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //wipe()
         let weekday = Calendar.current.component(.weekday, from: Date())
-        print(weekday)
         displayDay = weekday == 0  || weekday == 7 ? "Saturday" : weekday == 1 ? "Sunday" : weekday == 2 ? "Monday" : weekday == 3 ? "Tuesday" : weekday == 4 ? "Wednesday" : weekday == 5 ? "Thursday" : "Friday"
         navigationItem.title = displayDay
         tableView.rowHeight = UITableView.automaticDimension
