@@ -110,6 +110,7 @@ class DayViewController: UITableViewController{
         let insets = UIEdgeInsets(top: sumHeight, left: 0, bottom: 0, right: 0)
         tableView.contentInset = insets
         tableView.scrollIndicatorInsets = insets
+        tableView.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
