@@ -14,16 +14,6 @@ class DayViewController: UITableViewController{
     var displayedDay : Day!
     var db: OpaquePointer?
     var queryString : String!
-    /*let colors : [UIColor] = [
-     //+15
-     UIColor(displayP3Red: 225/255, green: 193/255, blue: 193/255, alpha: 1),
-     UIColor(displayP3Red: 128/255, green: 233/255, blue: 242/255, alpha: 1),
-     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1),
-     UIColor(displayP3Red: 225/255, green: 255/255, blue: 221/255, alpha: 1), //sat
-     UIColor(displayP3Red: 283/255, green: 255/255, blue: 233/255, alpha: 1)  //sun
-     ]*/
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         return displayedDay.schedule.count
@@ -37,7 +27,14 @@ class DayViewController: UITableViewController{
         let hour = task.time/100 < 1 ? "12" : task.time/100 > 12 ? String ((task.time/100) - 12): String(task.time/100)
         let AMorPM = task.time > 1200 ? " PM" : " AM"
         cell.timeLabel.text = hour + ":" + minute + AMorPM
-        
+        if task.repeatTask == 0 {
+            cell.nameLabel.textColor = UIColor.gray
+            cell.timeLabel.textColor = UIColor.gray
+        }
+        else {
+            cell.nameLabel.textColor = UIColor.black
+            cell.timeLabel.textColor = UIColor.black
+        }
         return cell
     }
     override func tableView(_ tableView: UITableView,
@@ -94,8 +91,16 @@ class DayViewController: UITableViewController{
         while sqlite3_step(get) == SQLITE_ROW {
             let name = String(cString: sqlite3_column_text(get, 1))
             let time = sqlite3_column_int(get, 2)
+            let rep = sqlite3_column_int(get, 3)
             let day = dayOfWeek == "Monday" ? 0 : dayOfWeek == "Tuesday" ? 1 : dayOfWeek == "Wednesday" ? 2 : dayOfWeek == "Thursday" ? 3 : dayOfWeek == "Friday" ? 4 : dayOfWeek == "Saturday" ? 5 : 6
-            displayedDay.addTask(newTask: Task(name: name, day: day, time: Int(time)))
+            let newTask = Task(name: name, day: day, time: Int(time))
+            if rep == 1 {
+                newTask.setRepeat(rep: true)
+            }
+            else {
+                newTask.setRepeat(rep: false)
+            }
+            displayedDay.addTask(newTask: newTask)
         }
         tableView.reloadData()
     }

@@ -12,13 +12,12 @@ class AddTaskViewController: UIViewController{
     
     @IBOutlet var nameTextField: UITextField!
     @IBOutlet var dateField: UISegmentedControl!
-    
     @IBOutlet var timeField: UIDatePicker!
     var time: Int!
     var name: String = ""
     var date: Int = 0
     var addTask: Task?
-    
+    var repeatTask: Bool!
     var newTask: Task!
     
     @objc func timeChanged(sender: UIDatePicker){
@@ -32,11 +31,21 @@ class AddTaskViewController: UIViewController{
     @IBAction func indexChanged(sender: UISegmentedControl) {
         date = dateField.selectedSegmentIndex
     }
+    @IBAction func repeatChange(sender: UISwitch) {
+        if sender.isOn{
+            repeatTask = true
+        }
+        else { repeatTask = false }
+    }
     @IBAction func done(){
         if nameTextField.text != "" {
             newTask.name = nameTextField.text ?? "default"
             newTask.day = date
             newTask.time = time
+            if repeatTask {
+                newTask.repeatTask = 1
+            }
+            else { newTask.repeatTask = 0 }
             _ = navigationController?.popViewController(animated: true)
         } else{
             nameTextField.layer.borderColor = UIColor.red.cgColor
@@ -54,6 +63,6 @@ class AddTaskViewController: UIViewController{
         timeChanged(sender: timeField)
         timeField?.addTarget(self, action: #selector(AddTaskViewController.timeChanged(sender:)), for: .valueChanged)
         dateField.selectedSegmentIndex = 0
-        
+        repeatTask = true
     }
 }

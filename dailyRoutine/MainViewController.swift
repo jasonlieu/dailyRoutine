@@ -62,31 +62,31 @@ class MainViewController: UITableViewController {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Monday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Monday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Tuesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Tuesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Wednesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Wednesday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Thursday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Thursday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Friday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Friday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Saturday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Saturday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Sunday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Sunday (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, time INTEGER, rep INTEGER)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
@@ -176,6 +176,21 @@ class MainViewController: UITableViewController {
         }
         tableView.reloadData()
     }
+    func removeTempTasks(){
+        var deleteDay : Int = -1
+        var get : OpaquePointer?
+        let queryString = "SELECT * FROM savedDay"
+        if sqlite3_prepare(db, queryString, -1, &get, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing get: \(errmsg)")
+        }
+        while sqlite3_step(get) == SQLITE_ROW {
+            deleteDay = Int(sqlite3_column_int(get, 0))
+        }
+        let updatedDeleteDay = deleteDay == 0  || deleteDay == 7 ? "Saturday" : deleteDay == 1 ? "Sunday" : deleteDay == 2 ? "Monday" : deleteDay == 3 ? "Tuesday" : deleteDay == 4 ? "Wednesday" : deleteDay == 5 ? "Thursday" : "Friday"
+        let deleteQuery = "DELETE FROM " + String(updatedDeleteDay) + " WHERE rep = 0"
+        sqlite3_exec(db, deleteQuery, nil, nil, nil)
+    }
     func loadFromDB(){
         var get : OpaquePointer?
         let queryString = "SELECT * FROM Today"
@@ -213,11 +228,14 @@ class MainViewController: UITableViewController {
             return true
         }
         else{
-            let weekday = Calendar.current.component(.weekday, from: Date())
-            sqlite3_exec(db, "UPDATE savedDay SET day = " + String(weekday), nil, nil, nil)
-            print("its a new day")
             return false
         }
+    }
+    func updateSavedDay(){
+        //let weekday = Calendar.current.component(.weekday, from: Date())
+        let weekday = 3
+        sqlite3_exec(db, "UPDATE savedDay SET day = " + String(weekday), nil, nil, nil)
+        print("its a new day")
     }
     func wipe(){ //testing purposes
         sqlite3_exec(db, "DROP TABLE Monday", nil, nil, nil)
@@ -238,11 +256,15 @@ class MainViewController: UITableViewController {
         tableView.backgroundColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 240/255, alpha: 1)
         tableView.tableFooterView = UIView()
         handleDB()
+        //wipe()
         if !checkNewDay(){
             beginDay()
+            removeTempTasks()
+            updateSavedDay()
         }
     }
     override func viewWillAppear(_ animated: Bool) {
+        print("wva")
         dailyTasks = Day()
         let weekday = Calendar.current.component(.weekday, from: Date())
         displayDay = weekday == 0  || weekday == 7 ? "Saturday" : weekday == 1 ? "Sunday" : weekday == 2 ? "Monday" : weekday == 3 ? "Tuesday" : weekday == 4 ? "Wednesday" : weekday == 5 ? "Thursday" : "Friday"

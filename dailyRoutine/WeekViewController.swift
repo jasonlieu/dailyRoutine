@@ -99,6 +99,11 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
             print("failure binding time: \(errmsg)")
             return
         }
+        if sqlite3_bind_int(insert, 3, Int32(task.repeatTask)) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure binding time: \(errmsg)")
+            return
+        }
         if sqlite3_step(insert) != SQLITE_DONE {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("failure inserting WEEKVIEWDB: \(errmsg)")
@@ -107,7 +112,7 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     func prepareQuery(task: Task) -> String{
         let day: String = task.day == 0 ? "Monday" : task.day == 1 ? "Tuesday" : task.day == 2 ? "Wednesday" : task.day == 3 ? "Thursday" : task.day == 4 ? "Friday" : task.day == 5 ? "Saturday" : "Sunday"
-        return "INSERT INTO " + day + " (name, time) VALUES (?,?)"
+        return "INSERT INTO " + day + " (name, time, rep) VALUES (?,?,?)"
         
     }
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]){

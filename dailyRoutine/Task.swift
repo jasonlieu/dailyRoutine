@@ -10,7 +10,8 @@ class Task: NSObject{
     var name: String
     var day: Int
     var time: Int
-    var done: Int = 0
+    var done: Int = 0   //0 = not done
+    var repeatTask: Int = 1 //1 = yes
     init(name: String, day: Int, time: Int){
         self.name = name
         self.day = day
@@ -23,6 +24,14 @@ class Task: NSObject{
         }
         else {
             done = 0
+        }
+    }
+    func setRepeat(rep: Bool){
+        if rep {
+            repeatTask = 1
+        }
+        else {
+            repeatTask = 0
         }
     }
 }
