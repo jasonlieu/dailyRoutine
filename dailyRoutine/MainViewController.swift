@@ -238,10 +238,7 @@ class MainViewController: UITableViewController {
         tableView.backgroundColor = UIColor(displayP3Red: 255/255, green: 250/255, blue: 240/255, alpha: 1)
         tableView.tableFooterView = UIView()
         handleDB()
-        if checkNewDay(){
-            loadFromDB()
-        }
-        else{
+        if !checkNewDay(){
             beginDay()
         }
     }
