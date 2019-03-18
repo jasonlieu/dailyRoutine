@@ -26,7 +26,6 @@ class AddTaskViewController: UIViewController{
         let hour = timeFromDate.hour!
         let minute = timeFromDate.minute!
         time = (hour * 100) + minute
-        print(time)
     }
     @IBAction func indexChanged(sender: UISegmentedControl) {
         date = dateField.selectedSegmentIndex

@@ -229,7 +229,7 @@
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nye-h2-GPM">
                                                 <rect key="frame" x="287" y="0.0" width="74" height="30"/>
                                                 <connections>
-                                                    <action selector="repeatChanged:" destination="2vi-zP-sdZ" eventType="valueChanged" id="0Ms-hF-l8y"/>
+                                                    <action selector="repeatChangeWithSender:" destination="2vi-zP-sdZ" eventType="valueChanged" id="rD8-dq-jjG"/>
                                                 </connections>
                                             </switch>
                                         </subviews>

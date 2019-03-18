@@ -232,10 +232,8 @@ class MainViewController: UITableViewController {
         }
     }
     func updateSavedDay(){
-        //let weekday = Calendar.current.component(.weekday, from: Date())
-        let weekday = 3
+        let weekday = Calendar.current.component(.weekday, from: Date())
         sqlite3_exec(db, "UPDATE savedDay SET day = " + String(weekday), nil, nil, nil)
-        print("its a new day")
     }
     func wipe(){ //testing purposes
         sqlite3_exec(db, "DROP TABLE Monday", nil, nil, nil)
@@ -264,7 +262,6 @@ class MainViewController: UITableViewController {
         }
     }
     override func viewWillAppear(_ animated: Bool) {
-        print("wva")
         dailyTasks = Day()
         let weekday = Calendar.current.component(.weekday, from: Date())
         displayDay = weekday == 0  || weekday == 7 ? "Saturday" : weekday == 1 ? "Sunday" : weekday == 2 ? "Monday" : weekday == 3 ? "Tuesday" : weekday == 4 ? "Wednesday" : weekday == 5 ? "Thursday" : "Friday"
