@@ -43,8 +43,8 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         return daysViewController[currentIndex + 1]
     }
     func addNewTaskToDay(){
-        daysViewController[newTask.day].addTask(task: newTask)
         postToDB(task: newTask)
+        daysViewController[newTask.day].addTask()
         newTask.day = -1
     }
     func postToDB(task: Task){
@@ -52,7 +52,6 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         let name = newTask.name
         let time = newTask.time
         if ((task.day + 2) % 7) == weekday { //insert to today table if task is add to current day
-            print("insert into today")
             let todayQuery = "INSERT INTO Today (name, time, done) VALUES (?,?,?)"
             var insertToday : OpaquePointer?
             if sqlite3_prepare(db, todayQuery, -1, &insertToday, nil) != SQLITE_OK{

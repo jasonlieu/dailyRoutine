@@ -104,9 +104,9 @@ class DayViewController: UITableViewController{
         }
         tableView.reloadData()
     }
-    func addTask(task: Task){
-        displayedDay.addTask(newTask: task)
-        tableView.reloadData()
+    func addTask(){
+        displayedDay = Day()
+        loadFromDB()
     }
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         let barHeight = UIApplication.shared.statusBarFrame.height
@@ -135,5 +135,7 @@ class DayViewController: UITableViewController{
         let insets = UIEdgeInsets(top: sumHeight, left: 0, bottom: 0, right: 0)
         tableView.contentInset = insets
         tableView.scrollIndicatorInsets = insets
+        displayedDay = Day()    //look over behavior when reloading view
+        loadFromDB()
     }
 }
