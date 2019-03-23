@@ -43,9 +43,12 @@ class DayViewController: UITableViewController{
         if editingStyle == .delete{
             let task = displayedDay.schedule[indexPath.row]
             self.displayedDay.removeTask(task: task)
-            let weekday = Calendar.current.component(.weekday, from: Date())
+            let weekday = Calendar.current.component(.weekday, from: Date()) == 7 ? 0 : Calendar.current.component(.weekday, from: Date())
             let name = task.name
             let time = task.time
+            print("HERE------------------")
+            print(weekday)
+            print(task.day)
             if ((task.day + 2) % 7) == weekday {
                 let deleteToday = "DELETE FROM Today WHERE name = '" + name + "' AND time = '" + String(time) + "'"
                 sqlite3_exec(db, deleteToday, nil, nil, nil)

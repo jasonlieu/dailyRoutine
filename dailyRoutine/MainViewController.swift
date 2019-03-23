@@ -214,7 +214,7 @@ class MainViewController: UITableViewController {
     }
     func checkNewDay() -> Bool{ //T if NOT new day
         var savedDay : Int = -1
-        let weekday = Calendar.current.component(.weekday, from: Date())
+        let weekday = Calendar.current.component(.weekday, from: Date()) == 7 ? 0 : Calendar.current.component(.weekday, from: Date())
         var get : OpaquePointer?
         let queryString = "SELECT * FROM savedDay"
         if sqlite3_prepare(db, queryString, -1, &get, nil) != SQLITE_OK{
@@ -232,7 +232,7 @@ class MainViewController: UITableViewController {
         }
     }
     func updateSavedDay(){
-        let weekday = Calendar.current.component(.weekday, from: Date())
+        let weekday = Calendar.current.component(.weekday, from: Date()) == 7 ? 0 : Calendar.current.component(.weekday, from: Date())
         sqlite3_exec(db, "UPDATE savedDay SET day = " + String(weekday), nil, nil, nil)
     }
     func wipe(){ //testing purposes

@@ -48,7 +48,7 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         newTask.day = -1
     }
     func postToDB(task: Task){
-        let weekday = Calendar.current.component(.weekday, from: Date())
+        let weekday = Calendar.current.component(.weekday, from: Date()) == 7 ? 0 : Calendar.current.component(.weekday, from: Date())
         let name = newTask.name
         let time = newTask.time
         if ((task.day + 2) % 7) == weekday { //insert to today table if task is add to current day
