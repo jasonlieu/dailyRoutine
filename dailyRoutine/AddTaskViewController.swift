@@ -62,7 +62,8 @@ class AddTaskViewController: UIViewController{
         super.viewDidLoad()
         timeChanged(sender: timeField)
         timeField?.addTarget(self, action: #selector(AddTaskViewController.timeChanged(sender:)), for: .valueChanged)
-        dateField.selectedSegmentIndex = dayFromWeekVC 
+        dateField.selectedSegmentIndex = dayFromWeekVC
+        date = dayFromWeekVC
         repeatTask = true
     }
 }
