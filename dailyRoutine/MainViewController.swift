@@ -27,30 +27,33 @@ class MainViewController: UITableViewController {
         let hour = task.time/100 < 1 ? "12" : task.time/100 > 12 ? String ((task.time/100) - 12): String(task.time/100)
         let AMorPM = task.time > 1200 ? " PM" : " AM"
         cell.timeLabel.text = hour + ":" + minute + AMorPM
+
         if task.done == 1 {
-            cell.accessoryType = UITableViewCell.AccessoryType.checkmark
+            cell.check.image = UIImage(named: "checkMark")
         }
         else {
-            cell.accessoryType = UITableViewCell.AccessoryType.none
+            cell.check.image = nil
+            
         }
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.accessoryType != UITableViewCell.AccessoryType.checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCell.AccessoryType.checkmark
+        if dailyTasks.schedule[indexPath.row].done == 0 {
             dailyTasks.schedule[indexPath.row].check()
             let name = dailyTasks.schedule[indexPath.row].name
             let time = String(dailyTasks.schedule[indexPath.row].time)
             let updateQuery = "UPDATE Today SET done = '1' WHERE name = '" + name + "' AND time = '" + time + "'"
             sqlite3_exec(db, updateQuery, nil, nil, nil)
+            tableView.reloadData()
         }
         else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCell.AccessoryType.none
             dailyTasks.schedule[indexPath.row].check()
             let name = dailyTasks.schedule[indexPath.row].name
             let time = String(dailyTasks.schedule[indexPath.row].time)
             let updateQuery = "UPDATE Today SET done = '0' WHERE name = '" + name + "' AND time = '" + time + "'"
             sqlite3_exec(db, updateQuery, nil, nil, nil)
+            tableView.reloadData()
+
         }
     }
     func handleDB(){

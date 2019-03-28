@@ -11,4 +11,6 @@ import UIKit
 class TodayTaskCell : UITableViewCell{
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var check: UIImageView!
+
 }
