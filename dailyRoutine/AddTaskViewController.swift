@@ -19,6 +19,7 @@ class AddTaskViewController: UIViewController{
     var addTask: Task?
     var repeatTask: Bool!
     var newTask: Task!
+    var dayFromWeekVC: Int!
     
     @objc func timeChanged(sender: UIDatePicker){
         let dateFromPicker = sender.date
@@ -61,7 +62,7 @@ class AddTaskViewController: UIViewController{
         super.viewDidLoad()
         timeChanged(sender: timeField)
         timeField?.addTarget(self, action: #selector(AddTaskViewController.timeChanged(sender:)), for: .valueChanged)
-        dateField.selectedSegmentIndex = 0
+        dateField.selectedSegmentIndex = dayFromWeekVC 
         repeatTask = true
     }
 }

@@ -128,6 +128,7 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
             newTask = Task(name: "temp", day: -1, time: 0)
             let addTaskVC = segue.destination as! AddTaskViewController
             addTaskVC.newTask = newTask
+            addTaskVC.dayFromWeekVC = indexOfNextVC
         default:
             preconditionFailure("Unexpected segue identifier.")
         }
@@ -153,6 +154,7 @@ class WeekViewController: UIPageViewController, UIPageViewControllerDelegate, UI
             //days.tableView.backgroundColor = colors[index!]
         }
         self.setViewControllers([daysViewController[updatedWeekday]], direction: .forward, animated: true, completion: nil)
+        indexOfNextVC = updatedWeekday
         navigationItem.title = daysViewController[updatedWeekday].dayOfWeek
         handleDB()
         newTask = Task(name: "temp", day: -1, time: 0)
